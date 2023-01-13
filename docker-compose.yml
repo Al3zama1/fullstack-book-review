@@ -10,7 +10,7 @@ services:
     ports:
       - "5432:5432"
   keycloak:
-    image: keycloak/keycloak:20.0.2
+    image: keycloak/keycloak:20.0.3
     command:
       - "start-dev --http-relative-path /auth --import-realm --auto-build"
     environment:
@@ -25,3 +25,14 @@ services:
         read_only: true
     ports:
       - "8888:8080"
+  sqs:
+    image: softwaremill/elasticmq-native
+    volumes:
+      - type: bind
+        source: ./tmp/sqs-queue-definition.conf
+        target: /opt/elasticmq.conf
+        read_only: true
+    ports:
+      - "9324:9324"
+      - "9325:9325"
+
