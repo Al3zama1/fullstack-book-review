@@ -1,4 +1,4 @@
-package com.example.fullstackbookreview.book.review;
+package com.example.fullstackbookreview.book.review.qualitycheck;
 
 import org.springframework.stereotype.Service;
 

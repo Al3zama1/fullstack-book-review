@@ -2,6 +2,7 @@ package com.example.fullstackbookreview.book.review;
 
 import com.example.fullstackbookreview.book.management.Book;
 import com.example.fullstackbookreview.book.management.BookRepository;
+import com.example.fullstackbookreview.book.review.qualitycheck.ReviewVerifier;
 import com.example.fullstackbookreview.exception.BadReviewQualityException;
 import com.example.fullstackbookreview.exception.ReviewNotFoundException;
 import com.example.fullstackbookreview.user.User;

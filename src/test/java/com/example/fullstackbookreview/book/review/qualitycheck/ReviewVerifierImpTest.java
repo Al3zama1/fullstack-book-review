@@ -1,10 +1,10 @@
-package com.example.fullstackbookreview.book.review;
+package com.example.fullstackbookreview.book.review.qualitycheck;
 
+import com.example.fullstackbookreview.book.review.qualitycheck.ReviewVerifierImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ReviewVerifierImpTest {
 
