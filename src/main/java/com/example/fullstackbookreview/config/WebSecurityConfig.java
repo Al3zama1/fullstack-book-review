@@ -2,6 +2,7 @@ package com.example.fullstackbookreview.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -16,6 +17,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.GET, "/api/v1/books").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/books/reviews").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/**").hasAuthority("ROLE_moderator")
                         .requestMatchers("/api/**").authenticated())
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
