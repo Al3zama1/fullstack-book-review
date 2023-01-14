@@ -13,12 +13,6 @@ Developed a fully tested book review application where users can add new books a
 different users. The aim of the project is to master testing techniques for effectively carrying out unit,
 integration, and end-to-end testing following a test driven development (TDD) approach.
 
-The project gave me the opportunity to explore testing recipes for the different layers of an application such as
-database, messaging, and HTTP communication. Furthermore, I got to work with the different testing slices provided by Spring
-and create a custom application context to carry out integration tests with the help of LocalStack. Finally, Testcontainers
-formed a critical part of this project because it allowed me to spawn up the necessary infrastructure needed like database,
-and AWS SQS support to perform integration tests.
-
 ## Application Architecture
 - Keycloack (Open source identity and access management solution) to secure parts of the frontend and backend.
 - PostgreSQL (RDBMS) to store data in a relational database.
