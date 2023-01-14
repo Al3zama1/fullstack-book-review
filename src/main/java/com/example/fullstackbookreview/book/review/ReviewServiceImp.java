@@ -109,6 +109,7 @@ public class ReviewServiceImp implements ReviewService{
     private ReviewResponse mapReview(Review review) {
         return new ReviewResponse(review.getId(), review.getContent(), review.getTitle(), review.getRating(),
                 review.getBook().getIsbn(), review.getBook().getTitle(), review.getBook().getThumbnailUrl(),
-                review.getUser().getName(), review.getCreatedAt().atZone(ZoneId.of("America/Tijuana")).toInstant().toEpochMilli());
+                review.getUser().getName(), review.getCreatedAt().atZone(ZoneId.of("America/Tijuana"))
+                .toInstant().toEpochMilli());
     }
 }

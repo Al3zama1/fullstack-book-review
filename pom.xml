@@ -16,6 +16,9 @@
 	<properties>
 		<java.version>17</java.version>
 		<testcontainers.version>1.17.6</testcontainers.version>
+		<p6spy.version>3.9.1</p6spy.version>
+		<mockito.version>4.11.0</mockito.version>
+
 	</properties>
 	<dependencies>
 		<dependency>
@@ -82,7 +85,12 @@
 		<dependency>
 			<groupId>p6spy</groupId>
 			<artifactId>p6spy</artifactId>
-			<version>3.9.1</version>
+			<version>${p6spy.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-inline</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
