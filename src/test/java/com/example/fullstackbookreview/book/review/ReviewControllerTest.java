@@ -44,7 +44,7 @@ class ReviewControllerTest {
     private static final String ISBN = "9780596004651";
     private static final String EMAIL = "john@spring.io";
     private static final String USERNAME = "john";
-    private static long REVIEW_ID = 3;
+    private static final long REVIEW_ID = 3;
 
     @Test
     void shouldReturnTwentyReviewsWithoutAnyOrderWhenNoParametersAreSpecified() throws Exception {
