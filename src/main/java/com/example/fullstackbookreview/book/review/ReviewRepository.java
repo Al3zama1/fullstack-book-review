@@ -15,8 +15,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     """
     SELECT id, ratings, isbn, avg
     FROM book
-    INNER JOIN (SELECT book_id, ROUND(AVG(rating), 2) avg, COUNT(*) ratings FROM reviews group by book_id) AS statistics
-    ON statistics.book_id = id;
+    INNER JOIN (SELECT book_id, ROUND(AVG(rating), 2) avg, COUNT(*) ratings FROM review group by book_id) AS statistics
     ON statistics.book_id = id;
     """, nativeQuery = true)
     List<ReviewStatistic> getReviewStatistics();
