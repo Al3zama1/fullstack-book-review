@@ -1,10 +1,10 @@
 package com.example.fullstackbookreview.book.management;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
 
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity

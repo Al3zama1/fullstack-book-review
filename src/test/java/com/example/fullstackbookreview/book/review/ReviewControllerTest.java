@@ -38,9 +38,6 @@ class ReviewControllerTest {
     @MockBean
     private ReviewService mockReviewService;
 
-    @InjectMocks
-    private ReviewController cut;
-
     private static final String ISBN = "9780596004651";
     private static final String EMAIL = "john@spring.io";
     private static final String USERNAME = "john";
@@ -49,15 +46,12 @@ class ReviewControllerTest {
     @Test
     void shouldReturnTwentyReviewsWithoutAnyOrderWhenNoParametersAreSpecified() throws Exception {
         // Given
-        List<ReviewResponse> reviews = new ArrayList<>();
-
         ReviewResponse reviewResponse = ReviewResponse.builder()
                 .reviewId(1L)
                 .reviewTitle("Good book")
                 .build();
 
-        reviews.add(reviewResponse);
-        given(mockReviewService.getAllReviews(20, "none")).willReturn(reviews);
+        given(mockReviewService.getAllReviews(20, "none")).willReturn(List.of(reviewResponse));
 
         // When
         mockMvc.perform(get("/api/v1/books/reviews"))
@@ -107,8 +101,7 @@ class ReviewControllerTest {
                 .rating(4)
                 .build();
 
-        given(mockReviewService.createBookReview(eq(ISBN), any(ReviewRequest.class), eq(USERNAME),
-                endsWith("spring.io"))).willReturn(1L);
+        given(mockReviewService.createBookReview(ISBN, reviewRequest, USERNAME, EMAIL)).willReturn(1L);
 
         // When
         mockMvc.perform(post("/api/v1/books/{isbn}/reviews", ISBN)
@@ -121,7 +114,6 @@ class ReviewControllerTest {
                 .andExpect(header().exists("Location"))
                 .andExpect(header().string("Location",
                         Matchers.containsString("/books/%s/reviews/1".formatted(ISBN))));
-
 
     }
 

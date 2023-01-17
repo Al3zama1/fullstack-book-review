@@ -3,6 +3,8 @@ package com.example.fullstackbookreview.book.review.qualitycheck;
 import com.example.fullstackbookreview.book.review.qualitycheck.ReviewVerifierImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,6 +27,14 @@ class ReviewVerifierImpTest {
 
         // Then
         assertThat(validReview).isEqualTo(false);
+    }
+
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/badReview.csv")
+    void shouldFailWhenReviewIsOfBadQuality(String review) {
+        boolean result = cut.reviewMeetsQualityStandards(review);
+        assertThat(result).isFalse();
     }
 
     @Test

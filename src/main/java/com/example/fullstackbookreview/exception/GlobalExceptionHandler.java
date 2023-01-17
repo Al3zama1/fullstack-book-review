@@ -1,10 +1,8 @@
 package com.example.fullstackbookreview.exception;
 
-import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -38,14 +37,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(
-            Exception ex, Object body, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
+            Exception ex, Object body, HttpHeaders headers, HttpStatus statusCode, WebRequest request) {
         return buildErrorResponse(ex, ex.getMessage(), statusCode, request);
     }
 
     @Override
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
-            MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+            MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(status.value(), ex.getMessage());
 
         for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
@@ -54,6 +53,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         return ResponseEntity.unprocessableEntity().body(errorResponse);
     }
+
+
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
@@ -68,7 +69,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private ResponseEntity<Object> buildErrorResponse(
-            Exception ex, String message, HttpStatusCode status, WebRequest request) {
+            Exception ex, String message, HttpStatus status, WebRequest request) {
 
         ErrorResponse errorResponse = new ErrorResponse(status.value(), message);
 

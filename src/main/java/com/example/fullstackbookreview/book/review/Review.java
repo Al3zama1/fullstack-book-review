@@ -2,9 +2,9 @@ package com.example.fullstackbookreview.book.review;
 
 import com.example.fullstackbookreview.user.User;
 import com.example.fullstackbookreview.book.management.Book;
-import jakarta.persistence.*;
 import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 

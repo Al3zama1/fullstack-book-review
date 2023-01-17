@@ -1,6 +1,6 @@
 package com.example.fullstackbookreview.book.review;
 
-import jakarta.validation.Valid;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -40,7 +41,7 @@ public class ReviewController {
                 jwt.getTokenAttributes().get("preferred_username").toString(),
                 jwt.getTokenAttributes().get("email").toString());
 
-        UriComponents uriComponents = uriComponentsBuilder.path("/api/books/{isbn}/reviews/{reviewId}")
+        UriComponents uriComponents = uriComponentsBuilder.path("/api/v1/books/{isbn}/reviews/{reviewId}")
                 .buildAndExpand(isbn, reviewId);
 
         return ResponseEntity.created(uriComponents.toUri()).build();
@@ -50,5 +51,10 @@ public class ReviewController {
     @PreAuthorize("hasAuthority('ROLE_moderator')")
     public void deleteBookReview(@PathVariable String isbn, @PathVariable Long reviewId) {
         reviewService.deleteReview(isbn, reviewId);
+    }
+
+    @GetMapping("/{isbn}/reviews/{reviewId}")
+    public ReviewResponse getReviewById(@PathVariable String isbn, @PathVariable Long reviewId) {
+        return reviewService.getReviewById(isbn, reviewId);
     }
 }
