@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
+import reactor.netty.resources.ConnectionProvider;
 import reactor.netty.tcp.TcpClient;
 
 import java.io.IOException;
@@ -55,6 +56,7 @@ class FetchBookMetadataImpTest {
 
         this.cut = new FetchBookMetadataImp(
                 WebClient.builder()
+                        .clientConnector(new ReactorClientHttpConnector(HttpClient.create()))
                         .clientConnector(new ReactorClientHttpConnector(HttpClient.from(tcpClient)))
                         .baseUrl(mockWebServer.url("/").toString())
                         .build()

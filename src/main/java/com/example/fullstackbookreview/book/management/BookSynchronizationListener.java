@@ -13,7 +13,7 @@ public class BookSynchronizationListener {
     private final BookRepository bookRepository;
     private final FetchBookMetadata fetchBookMetadata;
 
-    @SqsListener(value = "${sqs.book-synchronization-queue")
+    @SqsListener(value = "${sqs.book-synchronization-queue}")
     public void consumeBookUpdates(BookSynchronization bookSynchronization) {
         String isbn = bookSynchronization.getIsbn();
         log.info("Incoming book update for isbn '{}'", isbn);
