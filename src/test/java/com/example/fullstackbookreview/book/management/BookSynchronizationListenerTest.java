@@ -12,7 +12,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -25,7 +24,7 @@ class BookSynchronizationListenerTest {
     @Mock
     private BookRepository mockBookRepository;
     @Mock
-    private OpenLibraryApiClient mockOpenLibraryApiClient;
+    private FetchBookMetadata mockFetchBookMetadata;
     @InjectMocks
     private BookSynchronizationListener cut;
     @Captor
@@ -40,7 +39,7 @@ class BookSynchronizationListenerTest {
         cut.consumeBookUpdates(bookSynchronization);
 
         // Then
-        then(mockOpenLibraryApiClient).shouldHaveNoInteractions();
+        then(mockFetchBookMetadata).shouldHaveNoInteractions();
         then(mockBookRepository).shouldHaveNoInteractions();
     }
 
@@ -55,7 +54,7 @@ class BookSynchronizationListenerTest {
         cut.consumeBookUpdates(bookSynchronization);
 
         // Then
-        then(mockOpenLibraryApiClient).shouldHaveNoInteractions();
+        then(mockFetchBookMetadata).shouldHaveNoInteractions();
         then(mockBookRepository).should(never()).save(any());
     }
 
@@ -65,7 +64,7 @@ class BookSynchronizationListenerTest {
         BookSynchronization bookSynchronization = new BookSynchronization(VALID_ISBN);
 
         given(mockBookRepository.findByIsbn(bookSynchronization.getIsbn())).willReturn(Optional.empty());
-        given(mockOpenLibraryApiClient.fetchMetadataForBook(VALID_ISBN))
+        given(mockFetchBookMetadata.fetchMetadataForBook(VALID_ISBN))
                 .willThrow(new RuntimeException("Network timeout"));
 
         // When
@@ -87,7 +86,7 @@ class BookSynchronizationListenerTest {
                         .build();
 
         given(mockBookRepository.findByIsbn(bookSynchronization.getIsbn())).willReturn(Optional.empty());
-        given(mockOpenLibraryApiClient.fetchMetadataForBook(VALID_ISBN)).willReturn(bookToSave);
+        given(mockFetchBookMetadata.fetchMetadataForBook(VALID_ISBN)).willReturn(bookToSave);
 
         // When
         cut.consumeBookUpdates(bookSynchronization);

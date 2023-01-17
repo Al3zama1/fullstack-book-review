@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class BookSynchronizationListener {
 
     private final BookRepository bookRepository;
-    private final OpenLibraryApiClient openLibraryApiClient;
+    private final FetchBookMetadata fetchBookMetadata;
 
     @SqsListener(value = "${sqs.book-synchronization-queue")
     public void consumeBookUpdates(BookSynchronization bookSynchronization) {
@@ -28,7 +28,7 @@ public class BookSynchronizationListener {
             return;
         }
 
-        Book book = openLibraryApiClient.fetchMetadataForBook(isbn);
+        Book book = fetchBookMetadata.fetchMetadataForBook(isbn);
         book = bookRepository.save(book);
 
         log.info("Successfully stored new book '{}'", book);

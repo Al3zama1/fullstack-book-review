@@ -21,7 +21,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import java.util.Objects;
 
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ReviewControllerIT extends AbstractIntegrationTest{
 
     private static final String ISBN = "9780596004651";
