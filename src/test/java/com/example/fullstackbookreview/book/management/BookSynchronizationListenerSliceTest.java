@@ -88,8 +88,8 @@ public class BookSynchronizationListenerSliceTest {
     private BookSynchronizationListener cut;
     @Autowired
     private QueueMessagingTemplate queueMessagingTemplate;
-    @Autowired
-    private SimpleMessageListenerContainer messageListenerContainer;
+//    @Autowired
+//    private SimpleMessageListenerContainer messageListenerContainer;
     @MockBean
     private BookRepository bookRepository;
     @MockBean

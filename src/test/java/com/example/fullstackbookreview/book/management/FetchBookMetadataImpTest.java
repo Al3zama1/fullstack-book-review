@@ -23,6 +23,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
+/*
+When it comes to writing unit tests for API clients, mocking the entire WebClient interaction
+with Mockito is usually not a good fit. A better approach is to start a local HTTP server
+and mock the HTTP responses from the remote system:
+ */
+
 class FetchBookMetadataImpTest {
 
     private MockWebServer mockWebServer;
@@ -43,6 +49,11 @@ class FetchBookMetadataImpTest {
         }
     }
 
+    /*
+  having a new web server for each test method, we ensure that there is not
+  any enqueued responses from a previous test to avoid possible side effects
+  that could make our test fail.
+   */
     @BeforeEach
     public void setup() throws IOException {
 
