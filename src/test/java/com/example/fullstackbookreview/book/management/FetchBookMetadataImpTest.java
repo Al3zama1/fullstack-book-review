@@ -65,12 +65,6 @@ class FetchBookMetadataImpTest {
     }
 
     @Test
-    void another() {
-        assertThat(cut).isNotNull();
-        assertThat(mockWebServer).isNotNull();
-    }
-
-    @Test
     void shouldReturnBookWhenResultIsSuccess() throws InterruptedException {
         // Given
         MockResponse mockResponse = new MockResponse()
