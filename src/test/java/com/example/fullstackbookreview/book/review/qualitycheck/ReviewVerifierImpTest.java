@@ -1,6 +1,5 @@
 package com.example.fullstackbookreview.book.review.qualitycheck;
 
-import com.example.fullstackbookreview.book.review.qualitycheck.ReviewVerifierImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
