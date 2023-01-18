@@ -10,6 +10,7 @@ import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import stubs.OAuth2Stubs;
+import stubs.OpenLibraryStubs;
 
 import java.util.Arrays;
 
@@ -47,7 +48,14 @@ public class WireMockInitializer implements ApplicationContextInitializer<Config
             applicationContext.getBeanFactory().registerSingleton("rsaKeyGenerator", rsaKeyGenerator);
         }
 
+        /*
+        Openlibrary stubs do not need to be initialized since these will only be used used by application during runtime,
+        they are not needed before the application loads
+         */
+        OpenLibraryStubs openLibraryStubs = new OpenLibraryStubs(wireMockServer);
+
         applicationContext.getBeanFactory().registerSingleton("wireMockServer", wireMockServer);
+        applicationContext.getBeanFactory().registerSingleton("openLibraryStubs", openLibraryStubs);
 
         TestPropertyValues.of(
                 "clients.open-library.base-url=http://localhost:" + wireMockServer.port() + "/openLibrary"

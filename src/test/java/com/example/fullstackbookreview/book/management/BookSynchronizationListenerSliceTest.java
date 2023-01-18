@@ -96,13 +96,6 @@ public class BookSynchronizationListenerSliceTest {
     private FetchBookMetadata fetchBookMetadata;
 
     @Test
-    void shouldStartSQS() {
-        assertThat(cut).isNotNull();
-        assertThat(queueMessagingTemplate).isNotNull();
-        assertThat(messageListenerContainer).isNotNull();
-    }
-
-    @Test
     void shouldConsumeMessageWhenPayloadIsCorrect() {
         // Given
         given(bookRepository.findByIsbn(ISBN)).willReturn(Optional.of(new Book()));

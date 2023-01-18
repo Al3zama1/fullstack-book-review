@@ -1,6 +1,9 @@
 package com.example.fullstackbookreview;
 
 
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.services.sqs.AmazonSQSAsync;
+import com.amazonaws.services.sqs.AmazonSQSAsyncClientBuilder;
 import com.example.fullstackbookreview.book.management.BookRepository;
 import com.example.fullstackbookreview.book.review.ReviewRepository;
 import com.github.tomakehurst.wiremock.WireMockServer;
@@ -19,18 +22,26 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.containers.localstack.LocalStackContainer;
+import org.testcontainers.utility.DockerImageName;
 import stubs.OAuth2Stubs;
+import stubs.OpenLibraryStubs;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import static org.testcontainers.containers.localstack.LocalStackContainer.Service.SQS;
 
 @ActiveProfiles("integration-test")
 @ContextConfiguration(initializers = WireMockInitializer.class)
@@ -42,8 +53,14 @@ public abstract class AbstractIntegrationTest {
             .withUsername("test")
             .withPassword("s3cret");
 
+    static LocalStackContainer localStackContainer = new LocalStackContainer(
+            DockerImageName.parse("localstack/localstack:0.13.3"))
+            .withServices(LocalStackContainer.Service.SQS);
+
+
     static {
         postgreSQLContainer.start();
+        localStackContainer.start();
     }
 
     protected static final String QUEUE_NAME = UUID.randomUUID().toString();
@@ -58,6 +75,18 @@ public abstract class AbstractIntegrationTest {
         registry.add("sqs.book-synchronization-queue", () -> QUEUE_NAME);
     }
 
+    @TestConfiguration
+    static class TestConfig {
+
+        @Bean
+        public AmazonSQSAsync amazonSQSAsync() {
+            return AmazonSQSAsyncClientBuilder.standard()
+                    .withCredentials(localStackContainer.getDefaultCredentialsProvider())
+                    .withEndpointConfiguration(localStackContainer.getEndpointConfiguration(SQS))
+                    .build();
+        }
+    }
+
     @Autowired
     private ReviewRepository reviewRepository;
     @Autowired
@@ -67,7 +96,14 @@ public abstract class AbstractIntegrationTest {
     @Autowired
     private OAuth2Stubs oAuth2Stubs;
     @Autowired
+    protected OpenLibraryStubs openLibraryStubs;
+    @Autowired
     private WireMockServer wireMockServer;
+
+    @BeforeAll
+    static void beforeAll() throws IOException, InterruptedException {
+        localStackContainer.execInContainer("awslocal", "sqs", "create-queue", "--queue-name", QUEUE_NAME);
+    }
 
     @BeforeEach
     void init() {
