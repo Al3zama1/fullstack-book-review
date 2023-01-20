@@ -27,10 +27,19 @@ const Header: React.FC<Props> = ({isAuthenticated}) => {
 
             <Menu.Item
                 as={Link}
+                id='add-book'
+                name='Add Book'
+                active={activeItem === 'Add Book'}
+                onClick={() => setActiveItem('Add Book')}
+                to='add-book'
+            />
+
+            <Menu.Item
+                as={Link}
                 id='book-reviews'
                 name='Book Reviews'
                 active={activeItem === 'Book Reviews'}
-                onClick={() => setActiveItem("Book Reviews")}
+                onClick={() => setActiveItem('Book Reviews')}
                 to='all-reviews'
                 />
 

@@ -7,6 +7,7 @@ import Header from "./Header";
 import HomeContainer from './HomeContainer'
 import AllReviewsContainer from "./AllReviewsContainer";
 import SubmitReviewContainer from "./SubmitReviewContainer";
+import SubmitBookContainer from './SubmitBookContainer';
 
 const App: React.FC = () => {
   return (
@@ -16,9 +17,10 @@ const App: React.FC = () => {
           <Grid centered>
               <Grid.Column width={10}>
                   <Routes>
-                      <Route path="/" element={<HomeContainer />} />
+                      <Route path='/' element={<HomeContainer />} />
                       <Route path="/all-reviews" element={<AllReviewsContainer />}/>
                       <Route path='/submit-review' element={<SubmitReviewContainer />}/>
+                      <Route path='/add-book' element={<SubmitBookContainer />}/>
                   </Routes>
               </Grid.Column>
           </Grid>

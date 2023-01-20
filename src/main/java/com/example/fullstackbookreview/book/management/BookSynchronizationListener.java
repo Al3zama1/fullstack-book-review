@@ -19,6 +19,7 @@ public class BookSynchronizationListener {
         log.info("Incoming book update for isbn '{}'", isbn);
 
         if (isbn.length() != 13) {
+            System.out.println(isbn.length());
             log.warn("Incoming isbn for book is not 13 characters long, rejecing it");
             return;
         }
